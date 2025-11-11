@@ -1,6 +1,7 @@
 p1 = open('part1.txt','r')
 p2 = open('part2.txt','r')
 p3 = open('part3.txt','r')
+p4 = open('part3.txt','r')
 
 def part1(input):
     letters = list(input.readlines()[0])
@@ -66,45 +67,35 @@ def part2(input):
 
 def part3(input):
     line = input.readlines()[0]
-    letters = list(line+line)
-    mentors = {
-        "s":[],
-        "a":[],
-        "m":[]
-    }
-    apprentices = {
-        "s":[],
-        "a":[],
-        "m":[]
-    }
+    letters = list(line+line+line)
+    distance = 1000
+    mentors = {"A":[],"B":[],"C":[]}
+    apprentices = {"A":[],"B":[],"C":[]}
+    start,middle,final= 0,0,0
     for i in range(len(letters)):
-        match letters[i]:
-            case "a":
-                apprentices["s"].append(i)
-            case "b":
-                apprentices["a"].append(i)
-            case "c":
-                apprentices["m"].append(i)
-            case "A":
-                mentors["s"].append(i)
-            case "B":
-                mentors["a"].append(i)
-            case "C":
-                mentors["m"].append(i)
-    total1 = 0
-    total2 = 0
-    for group in apprentices:
-        for apprentice in apprentices[group]:
-            for master in mentors[group]:
-                if master<apprentice-1000:
-                    continue
-                if master>apprentice+1000:
-                    break
-                if apprentice< len(letters)/2 and master< len(letters)/2:
-                    total1+=1
+        if letters[i].isupper():
+            if apprentices[letters[i]]:
+                while i - apprentices[letters[i]][0] >distance:
+                    apprentices[letters[i]].pop(0)
+                if i<len(letters)/3:
+                    start += len(apprentices[letters[i]])
+                elif i<2*(len(letters)/3):
+                    middle += len(apprentices[letters[i]])
                 else:
-                    total2+=1
-    return total1 + (total2*999)
+                    final += len(apprentices[letters[i]])
+            mentors[letters[i]].append(i)
+        else:
+            if mentors[letters[i].upper()]:
+                while i - mentors[letters[i].upper()][0] >distance:
+                    mentors[letters[i].upper()].pop(0)
+                if i<len(letters)/3:
+                    start += len(mentors[letters[i].upper()])
+                elif i<2*(len(letters)/3):
+                    middle += len(mentors[letters[i].upper()])
+                else:
+                    final += len(mentors[letters[i].upper()])
+            apprentices[letters[i].upper()].append(i)
+    return start+(middle*998)+final
 
 print(part1(p1))
 print(part2(p2))
