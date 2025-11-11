@@ -82,7 +82,6 @@ def part3(input):
     numbersList = []
     for line in lines:
         numbersList.append([int(line.split(":")[0]),list(map(int,line.split(":")[1].split(",")))])
-    fishbones = {}
     scores = []
     for l in numbersList:
         numbers = l[1]
@@ -108,7 +107,6 @@ def part3(input):
                         break
             if newbone:
                 fishbone.append(Bone(number))
-        fishbones[l[0]] = fishbone
         score = ""
         boneScores = []
         for bone in fishbone:
