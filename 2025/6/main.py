@@ -1,7 +1,6 @@
 p1 = open('part1.txt','r')
 p2 = open('part2.txt','r')
 p3 = open('part3.txt','r')
-p4 = open('part3.txt','r')
 
 def part1(input):
     letters = list(input.readlines()[0])
